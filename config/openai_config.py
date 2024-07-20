@@ -3,20 +3,12 @@ import os
 from dotenv import load_dotenv
 load_dotenv()  # load .env vars
 
-client = AsyncOpenAI(
-    api_key=os.getenv('OPENAI_TOKEN'),
-    base_url=os.getenv('OPENAI_BASE_URL')
-)
-model = os.getenv('MODEL')
-system_role = os.getenv('ROLE')
+API_KEY = os.getenv('OPENAI_TOKEN')
+OPENAI_BASE_URL = os.getenv('OPENAI_BASE_URL')
+MODEL = os.getenv('MODEL')
+BASE_SYSTEM_PROMPT = open("config/system.txt", 'r', encoding='utf8').read().replace('\n', ' ')
 
-async def generate_answer(prompt: str, role: str = system_role):
-    return await client.chat.completions.create(
-        model=model,
-        messages=[
-            {
-                "role": role,
-                "content": prompt
-            }
-        ]
-    )
+client = AsyncOpenAI(
+    api_key=API_KEY,
+    base_url=OPENAI_BASE_URL
+)

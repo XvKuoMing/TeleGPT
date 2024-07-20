@@ -1,33 +1,31 @@
 import asyncio
 import logging
-from aiogram import F
+from aiogram import F, flags
 from aiogram.filters import Command
 from aiogram.types import Message
+from aiogram.utils.chat_action import ChatActionMiddleware
 
 from config.bot_config import bot
 from config.dp_config import dp
-from config.openai_config import generate_answer
+from utils.generation import generate_answer
+from routers.generator import generator
 
 @dp.message(Command('start'))
+@flags.chat_action(initial_sleep=1, action="typing", interval=3)
 async def start_session(message: Message) -> None:
     name = message.from_user.full_name
-    await message.chat.do("typing")
     text = await generate_answer(
-        prompt=f'Поприветствуй пользователя с именем {name}. Расскажи ему пару слов о себе и что ты умеешь.'
+        prompt='Поприветствуй пользователя с именем {name}. Расскажи ему пару слов о себе и что ты умеешь.'
     )
+    text = text.format(name=name)
     await message.answer(text=text)
-
-@dp.message(F.text)
-async def proceed_dialog(message: Message) -> None:
-    await message.chat.do("typing")
-    await message.answer(
-        text=await generate_answer(
-            prompt=message.text
-        )
-    )
 
 async def main():
     await bot.delete_webhook(drop_pending_updates=True)
+    dp.message.middleware(ChatActionMiddleware())
+    generator.message.middleware(ChatActionMiddleware())
+
+    dp.include_router(generator)
     await dp.start_polling(bot)
 
 
