@@ -38,24 +38,24 @@ jobs:
             echo "new_venv=true" >> $GITHUB_ENV
           fi
 
-    - name: activate_venv
-      id: act
-      run: source venv/bin/activate
+      - name: activate_venv
+        id: act
+        run: source venv/bin/activate
 
-    - name: old_env_configuration
-      id: old_env_conf
-      if: ${{ success() && $new_venv=="false"}}
-      run: |
-        pip freeze > req.txt
-        grep -xvFf requirements.txt req.txt > diff.txt
-        if [ -s "diff.txt" ]
-        then
-          pip install -r requirements.txt
-        fi
-        rm -rf diff.txt
-        rm -rf req.txt
+      - name: old_env_configuration
+        id: old_env_conf
+        if: ${{ success() && $new_venv=="false"}}
+        run: |
+          pip freeze > req.txt
+          grep -xvFf requirements.txt req.txt > diff.txt
+          if [ -s "diff.txt" ]
+          then
+            pip install -r requirements.txt
+          fi
+          rm -rf diff.txt
+          rm -rf req.txt
 
-    - name: deploy
-      id: d
-      run: python nohup main.py & disown
+      - name: deploy
+        id: d
+        run: python nohup main.py & disown
 
