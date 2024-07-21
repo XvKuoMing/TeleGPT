@@ -44,7 +44,7 @@ jobs:
 
       - name: old_env_configuration
         id: old_env_conf
-        if: ${{ success() && $new_venv=="false"}}
+        if: ${{ success() && new_venv=="false"}}
         run: |
           pip freeze > req.txt
           grep -xvFf requirements.txt req.txt > diff.txt
