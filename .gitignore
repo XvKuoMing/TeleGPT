@@ -2,3 +2,8 @@
 *.log
 *.idea
 __pycache__
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
