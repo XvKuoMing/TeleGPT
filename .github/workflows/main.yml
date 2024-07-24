@@ -13,14 +13,14 @@ jobs:
     name: deploy
     steps:
         - name: Checkout
-        uses: actions/checkout@v2
+          uses: actions/checkout@v2
         - name: deploy file
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-            username: ${{ secrets.FTP_USER }}
-            server: ${{ secrets.FTP_HOST }}
-            ssh_private_key: ${{ secrets.FTP_PASSWORD }}
-            local_path: './*'
-            remote_path: '/Desktop/*'
-            sftpArgs: '-o ConnectTimeout=5'
+          uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+          with:
+              username: ${{ secrets.FTP_USER }}
+              server: ${{ secrets.FTP_HOST }}
+              ssh_private_key: ${{ secrets.FTP_PASSWORD }}
+              local_path: './*'
+              remote_path: '/Desktop/*'
+              sftpArgs: '-o ConnectTimeout=5'
 
