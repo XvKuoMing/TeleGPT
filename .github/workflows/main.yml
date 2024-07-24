@@ -39,7 +39,7 @@ jobs:
       # This is a composite GitHub Action (Linux runner)
       # for deploying repository content to remote server
       - name: SFTP-Deploy-Action
-        uses: XvKuoMing/TeleGPT@main
+        uses: milanmk/actions-file-deployer@master
         with:
           remote-protocol: sftp
 
@@ -49,7 +49,7 @@ jobs:
           remote-password: ${{ secrets.FTP_PASSWORD }}
 
           # Path for specific folder on server for files deployment
-          remote-path: /test.net/deploy-test
+          remote-path: ~/Desktop
 
           # Port for SFTP access to server
           remote-port: 22
