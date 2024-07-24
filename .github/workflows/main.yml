@@ -55,7 +55,6 @@ jobs:
           remote-password: ${{ secrets.FTP_PASSWORD }}
 
           # Path for specific folder on server for files deployment
-          local-path: ~
           remote-path: /Desktop
 
           # Port for SFTP access to server
