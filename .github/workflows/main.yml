@@ -8,19 +8,18 @@ on:
     branches: [ "main" ]
 
 jobs:
-    deploy_job:
-      runs-on: ubuntu-latest
-      name: deploy
-      steps:
-          - name: Checkout
-            uses: actions/checkout@v2
-          - name: deploy file
-            uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-            with:
-                username: ${{ secrets.FTP_USER }}
-                server: ${{ secrets.FTP_HOST }}
-                password: ${{ secrets.FTP_PASSWORD }}
-                local_path: './*'
-                remote_path: '/Desktop/*'
-                sftpArgs: '-o ConnectTimeout=5'
-
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: updating
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
+          port: 22
+          script: |
+            cd Desktop
+            mkdir TeleGPT
+            cd TeleGPT
+            touch hello.txt
