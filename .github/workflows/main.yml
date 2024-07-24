@@ -9,6 +9,12 @@ on:
   # but only for the specific branch
   push:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      sync:
+        description: "File synchronization"
+        required: true
+        default: "delta"
 
 # A workflow run is made up of one or more jobs
 # that can run sequentially or in parallel
@@ -49,7 +55,8 @@ jobs:
           remote-password: ${{ secrets.FTP_PASSWORD }}
 
           # Path for specific folder on server for files deployment
-          remote-path: ~/Desktop
+          local-path: ~
+          remote-path: /Desktop
 
           # Port for SFTP access to server
           remote-port: 22
