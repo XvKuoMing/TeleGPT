@@ -4,59 +4,23 @@ name: CI/CD
 
 # Controls when the workflow will run
 on:
-
-  # Triggers the workflow on push request event
-  # but only for the specific branch
   push:
     branches: [ "main" ]
-  workflow_dispatch:
-    inputs:
-      sync:
-        description: "File synchronization"
-        required: true
-        default: "delta"
 
-# A workflow run is made up of one or more jobs
-# that can run sequentially or in parallel
 jobs:
-
-  # This workflow contains a single job called "SFTP-Deploy-Action"
-  Deploy:
-    name: SFTP-Deploy-Action
-
-    # The type of runner that the job will run on
-    # (depends on server but usually this value is works)
+    deploy_job:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks
-    # that will be executed as part of the job
+    name: deploy
     steps:
-
-      # Checks-out your repository under $GITHUB_WORKSPACE,
-      # so your job can access it
-      - name: Checkout
-        uses: actions/checkout@v4
+        - name: Checkout
+        uses: actions/checkout@v2
+        - name: deploy file
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          # Fetch all history for all tags and branches
-          fetch-depth: 0
-          # Checkout a specific branch
-          ref: main
-
-      # This is a composite GitHub Action (Linux runner)
-      # for deploying repository content to remote server
-      - name: SFTP-Deploy-Action
-        uses: milanmk/actions-file-deployer@master
-        with:
-          remote-protocol: sftp
-
-          # Credentials for SFTP access to server using GitHub secrets
-          remote-host: ${{ secrets.FTP_HOST }}
-          remote-user: ${{ secrets.FTP_USER }}
-          remote-password: ${{ secrets.FTP_PASSWORD }}
-
-          # Path for specific folder on server for files deployment
-          remote-path: /Desktop
-
-          # Port for SFTP access to server
-          remote-port: 22
+            username: ${{ secrets.FTP_USER }}
+            server: ${{ secrets.FTP_HOST }}
+            ssh_private_key: ${{ secrets.FTP_PASSWORD }}
+            local_path: './*'
+            remote_path: '/Desktop/*'
+            sftpArgs: '-o ConnectTimeout=5'
 
