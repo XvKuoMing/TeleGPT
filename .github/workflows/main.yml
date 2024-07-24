@@ -19,7 +19,7 @@ jobs:
             with:
                 username: ${{ secrets.FTP_USER }}
                 server: ${{ secrets.FTP_HOST }}
-                ssh_private_key: ${{ secrets.FTP_PASSWORD }}
+                password: ${{ secrets.FTP_PASSWORD }}
                 local_path: './*'
                 remote_path: '/Desktop/*'
                 sftpArgs: '-o ConnectTimeout=5'
