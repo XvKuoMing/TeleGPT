@@ -19,9 +19,23 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           script: |
+
+            # working dir
             cd Desktop/tgpt
+
+            # updating
             git pull origin main
 
+            # activating python venv
             source venv/bin/activate
-            [ -e "./nohup.pid" ] && { sudo kill `cat nohup.pid`; rm nohup.pid; }
+
+            # check if current repo old-pid exists and alive
+            if ( [ -e "./nohup.pid" ] && [ $(ps -o pid= -p $(cat nohup.pid)) ] );
+            then
+              # kill pid and .pid file
+              sudo kill `cat nohup.pid`
+              rm nohup.pid
+            fi
+
+            # running processes in bg and saving its pid
             nohup python main.py > nohup.out & echo $! > nohup.pid
