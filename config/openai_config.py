@@ -1,6 +1,6 @@
 from openai import AsyncOpenAI
 import os
-from dotenv_vault import load_dotenv
+from dotenv import load_dotenv
 load_dotenv()  # load .env vars
 
 API_KEY = os.getenv('OPENAI_TOKEN')
