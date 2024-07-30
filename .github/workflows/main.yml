@@ -1,8 +1,7 @@
-# This is a basic workflow to upload files
-# from GitHub to server via GitHub Actions
+# Auto deploy on server
 name: CI/CD
 
-# Controls when the workflow will run
+# when there are changes in github repo
 on:
   push:
     branches: [ "main" ]
@@ -12,7 +11,7 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: updating
+      - name: updating/deploying
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST }}
@@ -22,3 +21,7 @@ jobs:
           script: |
             cd Desktop/tgpt
             git pull origin main
+
+            source venv/bin/activate
+            [ -e "./nohup.pid" ] && { sudo kill `cat nohup.pid`; rm nohup.pid; }
+            nohup python main.py > nohup.out & echo $! > nohup.pid
