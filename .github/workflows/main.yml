@@ -20,7 +20,5 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           script: |
-            cd Desktop
-            mkdir TeleGPT
-            cd TeleGPT
-            touch hello.txt
+            cd Desktop/tgpt
+            git pull origin main
