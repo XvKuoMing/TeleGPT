@@ -38,4 +38,5 @@ jobs:
             fi
 
             # running processes in bg and saving its pid
-            nohup python main.py > nohup.out & echo $! > nohup.pid
+            nohup python main.py 1>nohup.out 2>nohup.err & disown
+            echo $! > nohup.pid
