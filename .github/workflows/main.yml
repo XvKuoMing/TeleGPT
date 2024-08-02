@@ -27,16 +27,17 @@ jobs:
             git pull origin main
 
             # activating python venv
-            source venv/bin/activate
+            # source venv/bin/activate
 
             # check if current repo old-pid exists and alive
-            if ( [ -e "./nohup.pid" ] && [ $(ps -o pid= -p $(cat nohup.pid)) ] );
-            then
+            #if ( [ -e "./nohup.pid" ] && [ $(ps -o pid= -p $(cat nohup.pid)) ] );
+            #then
               # kill pid and .pid file
-              sudo kill `cat nohup.pid`
-              rm nohup.pid
-            fi
+              #sudo kill `cat nohup.pid`
+              #rm nohup.pid
+            #fi
 
             # running processes in bg and saving its pid
-            nohup python main.py 1>nohup.out 2>nohup.err & disown
-            echo $! > nohup.pid
+            #nohup python main.py 1>nohup.out 2>nohup.err & disown
+            #echo $! > nohup.pid
+

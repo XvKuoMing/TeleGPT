@@ -34,4 +34,6 @@ logging.basicConfig(
     filemode='a',
     level=logging.INFO
 )
+# updating docker container https://www.quora.com/How-do-you-update-code-in-a-docker-container
+# https://docs.docker.com/build/ci/
 asyncio.run(main())
