@@ -1,0 +1,34 @@
+version: '3.3'
+
+services:
+
+  redis:
+    image: redis:7.2
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - tg_bot
+
+  tgpt:
+    build: .
+    container_name: tgpt
+    ports:
+      - "3000:3000"
+    volumes:
+      - bot_data:/data
+    links:
+      - redis
+    networks:
+      - tg_bot
+
+volumes:
+  redis_data:
+  bot_data:
+
+networks:
+  tg_bot:
+    driver: bridge
