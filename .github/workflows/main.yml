@@ -23,14 +23,14 @@ jobs:
             # working dir
             cd Desktop/tgpt
 
-            # updating
-            # git pull origin main
             # fetching
             git fetch origin main
             # checking
             DIFF=$(git diff main..origin/main)
             if [[ $DIFF ]];
             then
+              # removing old compose containers
+              docker compose down
               # updating
               git merge origin/main
               # building new image
@@ -42,6 +42,7 @@ jobs:
               echo "no changes found"
             fi
 
-            # run docker compose in bg
-            # docker compose up -d
+            # run docker compose in bg and save logs
+            docker compose up -d
+            docker compose logs -f -t >> docker.log
 

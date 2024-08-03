@@ -15,9 +15,9 @@ from routers.generator import generator
 async def start_session(message: Message) -> None:
     name = message.from_user.full_name
     text = await generate_answer(
-        prompt='Поприветствуй пользователя с именем {name}. Расскажи ему пару слов о себе и что ты умеешь.'
+        prompt=f'Поприветствуй пользователя с именем {name}. Расскажи ему пару слов о себе и что ты умеешь.'
     )
-    text = text.format(name=name)
+    # text = text.format(name=name)
     await message.answer(text=text)
 
 async def main():
@@ -28,7 +28,7 @@ async def main():
     dp.include_router(generator)
     await dp.start_polling(bot)
 
-
+# when using docker compose, logs would be handled by `docker compose logs -f -t >> docker.logs` command
 logging.basicConfig(
     # filename="info.log",
     # filemode='a',
