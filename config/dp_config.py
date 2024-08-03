@@ -9,6 +9,7 @@ from aiogram.fsm.storage.redis import RedisStorage
 
 try:
     # the idea is to use redis ttl cache in order to prevent long caching of unused data
+    print('here')
     redis_pool = redis.ConnectionPool(host="redis",
                                       port=6379,
                                       socket_timeout=2)  # https://habr.com/ru/companies/sberbank/articles/736464/

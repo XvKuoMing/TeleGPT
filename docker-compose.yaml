@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.7'
 
 services:
 
@@ -16,8 +16,6 @@ services:
   tgpt:
     build: .
     container_name: tgpt
-    ports:
-      - "3000:3000"
     volumes:
       - bot_data:/data
     links:
