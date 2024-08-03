@@ -30,8 +30,8 @@ async def main():
 
 
 logging.basicConfig(
-    filename="info.log",
-    filemode='a',
+    # filename="info.log",
+    # filemode='a',
     level=logging.INFO
 )
 # updating docker container https://www.quora.com/How-do-you-update-code-in-a-docker-container
