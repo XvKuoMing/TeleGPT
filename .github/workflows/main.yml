@@ -34,7 +34,12 @@ jobs:
               # updating
               git merge origin/main
               # building new image
-              doker compose build
+              docker compose build
+              # logging
+              echo "repo is updated, new image is built"
+            else
+              # logging
+              echo "no changes found"
             fi
 
             # run docker compose in bg
