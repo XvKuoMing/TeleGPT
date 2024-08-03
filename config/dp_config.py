@@ -1,5 +1,5 @@
 import datetime
-import redis
+import redis.asyncio as redis
 from redis.exceptions import ConnectionError
 from config.bot_config import bot
 from aiogram import Dispatcher, F
@@ -12,7 +12,7 @@ try:
     redis_pool = redis.ConnectionPool(host="redis",
                                       port=6379,
                                       socket_timeout=1)  # https://habr.com/ru/companies/sberbank/articles/736464/
-    redis_client = redis.asyncio.client.Redis(connection_pool=redis_pool)  # https://redis-py.readthedocs.io/en/stable/connections.html
+    redis_client = redis.client.Redis(connection_pool=redis_pool)  # https://redis-py.readthedocs.io/en/stable/connections.html
     session_rate_limit = datetime.timedelta(minutes=10)
     storage = RedisStorage(
         redis=redis_client,
