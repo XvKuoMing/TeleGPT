@@ -24,20 +24,19 @@ jobs:
             cd Desktop/tgpt
 
             # updating
-            git pull origin main
+            # git pull origin main
+            # fetching
+            git fetch origin main
+            # checking
+            DIFF=$(git diff main..origin/main)
+            if [[ $DIFF ]];
+            then
+              # updating
+              git merge origin/main
+              # building new image
+              doker compose build
+            fi
 
-            # activating python venv
-            # source venv/bin/activate
-
-            # check if current repo old-pid exists and alive
-            #if ( [ -e "./nohup.pid" ] && [ $(ps -o pid= -p $(cat nohup.pid)) ] );
-            #then
-              # kill pid and .pid file
-              #sudo kill `cat nohup.pid`
-              #rm nohup.pid
-            #fi
-
-            # running processes in bg and saving its pid
-            #nohup python main.py 1>nohup.out 2>nohup.err & disown
-            #echo $! > nohup.pid
+            # run docker compose in bg
+            # docker compose up -d
 

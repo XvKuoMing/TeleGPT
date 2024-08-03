@@ -27,7 +27,7 @@ async def proceed_dialog(message: Message) -> None:
                     )
                 )
     history.append({'role': 'user', 'content': message.text})
-    history.append({'role': 'assistant', 'content': ai_answer})
+    history.append({'role': 'assistant', 'content': ai_answer.text})
     await dp.storage.update_data(key=storage_key,
                                  data={'history': history})
 
