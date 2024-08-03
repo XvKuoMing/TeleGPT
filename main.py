@@ -4,6 +4,7 @@ from aiogram import F, flags
 from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram.utils.chat_action import ChatActionMiddleware
+from middlewares.throttling import ThrottlingMiddleware
 
 from config.bot_config import bot
 from config.dp_config import dp
@@ -23,7 +24,9 @@ async def start_session(message: Message) -> None:
 async def main():
     await bot.delete_webhook(drop_pending_updates=True)
     dp.message.middleware(ChatActionMiddleware())
+    dp.message.middleware(ThrottlingMiddleware())
     generator.message.middleware(ChatActionMiddleware())
+    generator.message.middleware(ThrottlingMiddleware())
 
     dp.include_router(generator)
     await dp.start_polling(bot)
