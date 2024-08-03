@@ -42,7 +42,8 @@ jobs:
               echo "no changes found"
             fi
 
-            # run docker compose in bg and save logs
+            # run docker compose in bg
             docker compose up -d
-            docker compose logs -f -t >> docker.log
+            # live time stream logs (both std out and err) to file in detached mode:: https://stackoverflow.com/questions/41144589/how-to-redirect-docker-container-logs-to-a-single-file
+            docker compose logs -f &> docker.log &
 
