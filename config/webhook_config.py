@@ -10,7 +10,7 @@ load_dotenv()  # load .env vars
 WEBHOOK_ADDRESS = os.getenv("WEBHOOK_ADDRESS")
 WEBHOOK_PATH = os.getenv("WEBHOOK_PATH")
 SERVER_ADDRESS = os.getenv("SERVER_ADDRESS")
-SERVER_PORT = os.getenv("SERVER_PORT")
+SERVER_PORT = int(os.getenv("SERVER_PORT"))
 SELF_SIGNED_CERTIFICATE = os.getenv("SELF_SIGNED_CERTIFICATE")
 
 webhook_handler = SimpleRequestHandler(dispatcher=dp,
