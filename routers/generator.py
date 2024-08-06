@@ -3,7 +3,7 @@ from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram.fsm.storage.base import StorageKey
 
-from config.bot_config import bot
+from config.bot_config import tgpt
 from config.dp_config import dp
 from utils.generation import generate_answer
 
@@ -13,7 +13,7 @@ generator = Router()
 @generator.message(~F.text.startswith('/') & F.text)
 @flags.chat_action(initial_sleep=1, action="typing", interval=3)
 async def proceed_dialog(message: Message) -> None:
-    storage_key = StorageKey(bot_id=bot.id,
+    storage_key = StorageKey(bot_id=tgpt.id,
                              user_id=message.from_user.id,
                              chat_id=message.chat.id)
     data = await dp.storage.get_data(key=storage_key)
@@ -34,7 +34,7 @@ async def proceed_dialog(message: Message) -> None:
 
 @generator.message(Command('clear'))
 async def clear_chat_history(message: Message) -> None:
-    storage_key = StorageKey(bot_id=bot.id,
+    storage_key = StorageKey(bot_id=tgpt.id,
                              user_id=message.from_user.id,
                              chat_id=message.chat.id)
     await dp.storage.update_data(key=storage_key, data={'history': []})

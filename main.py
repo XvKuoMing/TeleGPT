@@ -50,7 +50,7 @@ def main():
     # await dp.start_polling(bot)
 
 
-# when using docker compose, logs would be handled by `docker compose logs -f -t >> docker.logs` command
+# when using docker compose, logs would be handled by `docker compose logs -f -&> docker.logs &` command
 logging.basicConfig(
     # filename="info.log",
     # filemode='a',
