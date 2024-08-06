@@ -10,8 +10,6 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
-    networks:
-      - with_proxy
 
   tgpt:
     build: .
@@ -21,15 +19,10 @@ services:
       - "8080:8080"
     volumes:
       - bot_data:/data
-    links:
+    depends_on:
       - redis
-    networks:
-      - with_proxy
+    network_mode: host
 
 volumes:
   redis_data:
   bot_data:
-
-networks:
-  with_proxy:
-    driver: host
