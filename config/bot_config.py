@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-bot = Bot(
+tgpt = Bot(
     token=os.getenv('BOT_TOKEN'),
     # parse_mode=ParseMode.HTML
 )

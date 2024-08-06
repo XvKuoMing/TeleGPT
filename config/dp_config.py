@@ -1,7 +1,7 @@
 import datetime
 import redis.asyncio as redis
 from redis.exceptions import ConnectionError
-from config.bot_config import bot
+from config.bot_config import tgpt
 from aiogram import Dispatcher, F
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.storage.redis import RedisStorage
@@ -22,5 +22,6 @@ try:
 except ConnectionError:
     storage = MemoryStorage()
 
-dp = Dispatcher(bot=bot, storage=storage)
+dp = Dispatcher(bot=tgpt, storage=storage)
 dp.message.filter(F.chat.type == "private")
+

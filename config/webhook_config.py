@@ -1,7 +1,7 @@
 from aiogram import Bot
 from aiogram.types import FSInputFile
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler
-from config.bot_config import bot
+from config.bot_config import tgpt
 from config.dp_config import dp
 from dotenv import load_dotenv
 import os
@@ -14,9 +14,12 @@ SERVER_PORT = os.getenv("SERVER_PORT")
 SELF_SIGNED_CERTIFICATE = os.getenv("SELF_SIGNED_CERTIFICATE")
 
 webhook_handler = SimpleRequestHandler(dispatcher=dp,
-                                       bot=bot)
+                                       bot=tgpt)
 
-async def set_webhook(_bot: Bot):
-    await _bot.set_webhook(f"{WEBHOOK_ADDRESS}{WEBHOOK_PATH}",
+async def set_webhook(bot: Bot):
+    await bot.set_webhook(f"{WEBHOOK_ADDRESS}{WEBHOOK_PATH}",
                            certificate=FSInputFile(SELF_SIGNED_CERTIFICATE))
+
+async def delete_webhook(bot: Bot):
+    await bot.delete_webhook(drop_pending_updates=True)
 
