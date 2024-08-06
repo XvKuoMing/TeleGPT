@@ -8,8 +8,6 @@ services:
     restart: always
     volumes:
       - redis_data:/data
-    networks:
-      - inner
     network_mode: host
 
   tgpt:
