@@ -10,6 +10,8 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    networks:
+      - inner
 
   tgpt:
     build: .
@@ -21,8 +23,16 @@ services:
       - bot_data:/data
     depends_on:
       - redis
-    network_mode: host
+    networks:
+      - inner
+      - host
 
 volumes:
   redis_data:
   bot_data:
+
+networks:
+  host:
+    external: true
+  inner:
+    driver: bridge
