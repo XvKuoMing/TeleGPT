@@ -16,6 +16,9 @@ services:
   tgpt:
     build: .
     container_name: tgpt
+    restart: always
+    ports:
+      - "8080:8080"
     volumes:
       - bot_data:/data
     links:
