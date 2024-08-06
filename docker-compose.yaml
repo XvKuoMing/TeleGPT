@@ -6,20 +6,16 @@ services:
     image: redis:7.2
     container_name: redis
     restart: always
-    ports:
-      - "6379:6379"
     volumes:
       - redis_data:/data
     networks:
       - inner
-    network_mode: bridge
+    network_mode: host
 
   tgpt:
     build: .
     container_name: tgpt
     restart: always
-    ports:
-      - "8080:8080"
     volumes:
       - bot_data:/data
     depends_on:
