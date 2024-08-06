@@ -55,4 +55,4 @@ logging.basicConfig(
 )
 # updating docker container https://www.quora.com/How-do-you-update-code-in-a-docker-container
 # https://docs.docker.com/build/ci/
-asyncio.run(main())
+# asyncio.run(main()) # when web is running that is not needed
