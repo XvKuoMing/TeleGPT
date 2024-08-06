@@ -41,8 +41,7 @@ async def main():
     # web logic
     app = web.Application()
     dp.startup.register(set_webhook)
-    webhook_handler.register(app=app,
-                             path=WEBHOOK_PATH)
+    webhook_handler.register(app=app, path=WEBHOOK_PATH)
     setup_application(app, dp, bot=bot)
     web.run_app(app, host=SERVER_ADDRESS, port=SERVER_PORT)
 
