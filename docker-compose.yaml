@@ -12,6 +12,7 @@ services:
       - redis_data:/data
     networks:
       - inner
+    network_mode: bridge
 
   tgpt:
     build: .
@@ -23,16 +24,8 @@ services:
       - bot_data:/data
     depends_on:
       - redis
-    networks:
-      - inner
-      - host
+    network_mode: host
 
 volumes:
   redis_data:
   bot_data:
-
-networks:
-  host:
-    external: true
-  inner:
-    driver: bridge
