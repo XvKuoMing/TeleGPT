@@ -25,6 +25,7 @@ services:
       - redis
     networks:
       - tg_bot
+      - proxy
 
 volumes:
   redis_data:
@@ -33,3 +34,5 @@ volumes:
 networks:
   tg_bot:
     driver: bridge
+  proxy:
+    driver: host
