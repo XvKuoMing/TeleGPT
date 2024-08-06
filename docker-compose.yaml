@@ -11,7 +11,7 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - tg_bot
+      - with_proxy
 
   tgpt:
     build: .
@@ -24,15 +24,12 @@ services:
     links:
       - redis
     networks:
-      - tg_bot
-      - proxy
+      - with_proxy
 
 volumes:
   redis_data:
   bot_data:
 
 networks:
-  tg_bot:
-    driver: bridge
-  proxy:
+  with_proxy:
     driver: host
