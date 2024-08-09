@@ -22,26 +22,12 @@ jobs:
 
             # working dir
             cd tgbot
-
-            # fetching
-            git fetch origin main
-            # checking
-            DIFF=$(git diff origin/main)
-            if [[ $DIFF ]];
-            then
-              # removing old compose containers
-              docker compose down
-              # updating
-              git merge origin/main
-              # building new image
-              docker compose build
-              # logging
-              echo "repo is updated, new image is built"
-            else
-              # logging
-              echo "no changes found"
-            fi
-
+            # pulling
+            git pull origin main
+            # removing old compose containers
+            docker compose down
+            # building new image
+            docker compose build
             # run docker compose in bg
             docker compose up -d
             # live time stream logs (both std out and err) to file in detached mode:: https://stackoverflow.com/questions/41144589/how-to-redirect-docker-container-logs-to-a-single-file
