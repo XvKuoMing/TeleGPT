@@ -27,9 +27,9 @@ jobs:
             # removing old compose containers
             docker compose down
             # building new image
-            docker compose build
-            # run docker compose in bg
-            docker compose up -d
+            # docker compose build
+            # building and running docker compose in bg
+            docker compose up -d --build
             # live time stream logs (both std out and err) to file in detached mode:: https://stackoverflow.com/questions/41144589/how-to-redirect-docker-container-logs-to-a-single-file
             docker compose logs -f &> docker.log &
 

@@ -3,7 +3,7 @@ WORKDIR .
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 RUN apt-get update && \
-    apt-get install --yes gcc libsndfile1
+    apt-get install --yes build-essential gcc libsndfile1
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 COPY . .
