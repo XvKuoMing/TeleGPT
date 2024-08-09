@@ -1,9 +1,9 @@
 FROM python:3.9-slim-bookworm
 WORKDIR .
-ENV VIRTUAL_ENV=/opt/venv
-RUN python -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recomends gcc libsndfile1
 COPY . .
-RUN pip install --no-cache-dir -r requirements.txt
-RUN apt-get update -y && apt-get install -y --no-install-recommends build-essential gcc libsndfile1
+RUN pip install -r requirements.txt
 CMD ["python", "-u", "main.py"]
