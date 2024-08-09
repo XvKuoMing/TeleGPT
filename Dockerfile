@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update && \
     apt-get install --yes gcc libsndfile1
 RUN python -m venv /opt/venv
-RUN PATH="/opt/venv/bin:$PATH"
+ENV PATH="/opt/venv/bin:$PATH"
 COPY . .
 RUN pip install -r requirements.txt
 CMD ["python", "-u", "main.py"]
