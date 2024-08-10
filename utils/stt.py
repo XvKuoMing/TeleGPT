@@ -5,7 +5,7 @@ import vosk
 import ast
 from config.bot_config import tgpt
 
-model = vosk.Model("./vosk-model-small-ru-0.22")
+model = vosk.Model("utils/vosk-model-small-ru-0.22")
 recognizer = vosk.KaldiRecognizer(model, 16000)
 
 async def voice_file_id2text(voice_file_id: str) -> str:

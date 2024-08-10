@@ -18,6 +18,7 @@ jobs:
           username: ${{ secrets.USER }}
           password: ${{ secrets.PASSWORD }}
           port: 22
+          command_timeout: 200m
           script: |
 
             # working dir
@@ -27,9 +28,9 @@ jobs:
             # removing old compose containers
             docker compose down
             # building new image
-            # docker compose build
+            docker compose build
             # building and running docker compose in bg
-            docker compose up -d --build
+            docker compose up -d
             # live time stream logs (both std out and err) to file in detached mode:: https://stackoverflow.com/questions/41144589/how-to-redirect-docker-container-logs-to-a-single-file
             docker compose logs -f &> docker.log &
 

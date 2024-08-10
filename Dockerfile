@@ -7,5 +7,6 @@ RUN apt-get update && \
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 COPY . .
+RUN pip install ffmpeg
 RUN pip install -r requirements.txt
 CMD ["python", "-u", "main.py"]
