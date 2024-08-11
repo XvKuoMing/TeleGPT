@@ -47,7 +47,7 @@
 Пример настройки reverse proxy на nginx — nginx-example.conf
 <br />
 Подробную инструкцию по генерации собственных сертификатов можно посмотреть 
-по [ссылке](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04).
+по [ссылке](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04)
 <br />
 *В дальнейшем я планирую добавить детальную инструкцию от и до реализации каждого из указанных шагов*
 
