@@ -6,7 +6,7 @@ from aiogram.fsm.storage.base import StorageKey
 from config.bot_config import tgpt
 from config.dp_config import dp
 from utils.generation import generate_answer
-from utils.stt import voice_file_id2text
+# from utils.stt import voice_file_id2text
 from typing import Optional
 
 generator = Router()  # handles every logic about text generation
@@ -64,9 +64,10 @@ async def voice2text(message: Message) -> None:
     :param message: message that contains voice message
     :return: replies to user with generated text
     """
-    voice_file_id = message.voice.file_id
-    text = await voice_file_id2text(voice_file_id)
-    await proceed_dialog(message=message, text=text)
+    await message.answer(text="Генерация по аудио пока не поддерживается.\nСобираем деньги на новый сервер")
+    # voice_file_id = message.voice.file_id
+    # text = await voice_file_id2text(voice_file_id)
+    # await proceed_dialog(message=message, text=text)
 
 
 """-------------------------------------memory management----------------------------------------------"""
