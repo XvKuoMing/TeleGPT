@@ -14,8 +14,8 @@ try:
         "socket_timeout": 1,
     }
     # test connection
-    conn = redis.client.Redis(**redis_host_params)
-    conn.ping()
+    conn = redis.Redis(**redis_host_params)
+    conn.ping()  # if redis does not reply, the error will occur
     conn.close()
     # production connection
     redis_pool = aioredis.ConnectionPool(**redis_host_params)
