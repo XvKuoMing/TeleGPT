@@ -24,6 +24,5 @@ async def generate_answer(prompt: str, system: dict = BASE_SYSTEM_PROMPT, histor
     text = res.choices[0].message.content
     if (text[0] + text[-1]) == "**":
         text = text[1:-1]
-    else:
-        text = comments.sub("", text)
+    text = comments.sub("", text)
     return text
