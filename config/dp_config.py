@@ -13,7 +13,7 @@ redis_pool = redis.ConnectionPool(host="127.0.0.1",
 redis_client = redis.client.Redis(connection_pool=redis_pool)
 
 try:
-    redis_client.ping()
+    await redis_client.ping()
     session_rate_limit = datetime.timedelta(minutes=10)
     storage = RedisStorage(
         redis=redis_client,
