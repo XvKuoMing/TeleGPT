@@ -6,6 +6,7 @@ from aiogram.fsm.storage.base import StorageKey
 from config.bot_config import tgpt
 from config.dp_config import dp
 from utils.generation import generate_answer
+from utils.fetching import fetch_all
 # from utils.stt import voice_file_id2text
 from typing import Optional
 
@@ -56,6 +57,22 @@ async def start_session(message: Message) -> None:
     Если ты его уже приветствовал, то спроси, чем ему помочь."""
     await proceed_dialog(message=message, text=text)
 
+
+@generator.message(F.entities.func(lambda entities: "text_url" in [ent.type for ent in entities]))
+@flags.chat_action(initial_sleep=1, action="typing", interval=3)
+async def embed_urls(message: Message) -> None:
+    """if texts contains url, then we embed their content into message text"""
+    urls = []
+    for entity in message.entities:
+        if entity.type == "text_url":
+            urls.append(entity.url)
+    urls_and_texts = await fetch_all(urls)
+    embed_text = "\n\n"
+    for url, text in urls_and_texts:
+        embed_text += f"Информация из ссылки: {url}\n" + text
+    await proceed_dialog(message=message, text=message.text+embed_text)
+
+
 @generator.message(F.voice)
 @flags.chat_action(initial_sleep=1, action="typing", interval=3)
 async def voice2text(message: Message) -> None:
@@ -70,7 +87,7 @@ async def voice2text(message: Message) -> None:
     # await proceed_dialog(message=message, text=text)
 
 
-"""-------------------------------------memory management----------------------------------------------"""
+"""-------------------------------------generation memory management----------------------------------------------"""
 @generator.message(Command('clear'))
 async def clear_chat_history(message: Message) -> None:
     """
