@@ -5,6 +5,7 @@ from middlewares.throttling import ThrottlingMiddleware
 from aiogram.webhook.aiohttp_server import setup_application
 
 from routers.generator import generator
+from routers.informant import informant
 from config.bot_config import tgpt
 from config.dp_config import dp
 from config.webhook_config import (set_webhook,
@@ -17,13 +18,13 @@ from config.webhook_config import (set_webhook,
 
 
 def main():
-
     # include router's middlewares
     generator.message.middleware(ChatActionMiddleware())
     generator.message.middleware(ThrottlingMiddleware())
-
+    informant.message.middleware(ThrottlingMiddleware(throttle_time=2))
     # include router's to dispatcher
     dp.include_router(generator)
+    dp.include_router(informant)
 
     # web logic
     app = web.Application()
