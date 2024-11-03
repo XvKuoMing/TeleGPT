@@ -5,10 +5,11 @@ import re
 comments = re.compile(r"\*.*\*")
 
 async def generate_answer(prompt: str, 
-                          system: dict = BASE_SYSTEM_PROMPT, 
+                          system: Optional[str] = None, 
                           history: Optional[List[dict]] = None,
-                          base64_images: list = None):
-    system = {'role': 'system', 'content': system}
+                          base64_images: Optional[list] = None):
+    if system is None:
+        system = {'role': 'system', 'content': BASE_SYSTEM_PROMPT}
     if history is None:
         history = []
     
