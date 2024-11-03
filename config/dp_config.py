@@ -20,7 +20,7 @@ try:
     # production connection
     redis_pool = aioredis.ConnectionPool(**redis_host_params)
     redis_client = aioredis.client.Redis(connection_pool=redis_pool)
-    session_rate_limit = datetime.timedelta(minutes=10)
+    session_rate_limit = datetime.timedelta(minutes=60)
     storage = RedisStorage(
         redis=redis_client,
         state_ttl=session_rate_limit,

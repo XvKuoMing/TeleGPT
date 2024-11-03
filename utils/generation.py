@@ -4,25 +4,38 @@ import re
 
 comments = re.compile(r"\*.*\*")
 
-async def generate_answer(prompt: str, system: dict = BASE_SYSTEM_PROMPT, history: Optional[List[dict]] = None):
+async def generate_answer(prompt: str, 
+                          system: dict = BASE_SYSTEM_PROMPT, 
+                          history: Optional[List[dict]] = None,
+                          base64_images: list = None):
     system = {'role': 'system', 'content': system}
     if history is None:
         history = []
+    
+    user =  {"role": "user", "content": None}
+    if base64_images:
+        user["content"] = [{"type": "text", "text": prompt}]
+        for image in base64_images:
+            user["content"].append(
+                {"type": "image_url", "image_url": {
+                    "detail": "high",
+                    "url": f"data:image/jpeg;base64,{image}"
+                }}
+            )
+    else:
+        user["content"] = prompt
+
+
     res = await client.chat.completions.create(
         model=MODEL,
         messages=[
             system,
             *history,
-            {
-                "role": "user",
-                "content": prompt
-            }
+            user
         ]
     )
-    if res is None:
-        return "К сожалению бот пока не может ответить"
-    text = res.choices[0].message.content
-    if (text[0] + text[-1]) == "**":
-        text = text[1:-1]
-    text = comments.sub("", text)
-    return text
+    try:
+        return res.choices[0].message.content
+    except:
+        return "К сожалению бот пока не может ответить. Попробуй еще раз через пару минут"
+    

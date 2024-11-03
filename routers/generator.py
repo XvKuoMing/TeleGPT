@@ -1,6 +1,6 @@
 from aiogram import F, Router, flags
 from aiogram.filters import Command
-from aiogram.types import Message
+from aiogram.types import Message, ContentType
 from aiogram.fsm.storage.base import StorageKey
 
 from config.bot_config import tgpt
@@ -9,11 +9,13 @@ from utils.generation import generate_answer
 from utils.fetching import fetch_all
 # from utils.stt import voice_file_id2text
 from typing import Optional
+import base64
+import io
 
 generator = Router()  # handles every logic about text generation
 
 
-@generator.message(~F.text.startswith('/') & F.text)
+@generator.message(~F.text.startswith('/') & (F.text | F.photo))
 @flags.chat_action(initial_sleep=1, action="typing", interval=3)
 async def proceed_dialog(message: Message, text: Optional[str] = None) -> None:
     """
@@ -29,8 +31,23 @@ async def proceed_dialog(message: Message, text: Optional[str] = None) -> None:
     history = []
     if 'history' in data.keys():
         history = data['history']
-    if text is None:
-        text = message.text
+
+    base64_images = []
+    if message.content_type == ContentType.Text:
+        text = message.text if text is None else text
+    if message.content_type == ContentType.Photo:
+        photo = message.photo[-1]
+        photo_bytes = io.BytesIO()
+        await photo.download(destination=photo_bytes)
+        photo_bytes.seek(0)  # Go to the start of the BytesIO object
+        # Encode the photo to base64
+        encoded_string = base64.b64encode(photo_bytes.read()).decode('utf-8')
+        base64_images.append(encoded_string)
+        text = message.caption if text is None else text
+    
+    if text is None and base64_images:
+        text = "Расскажи, что на картинках"
+
     ai_answer = await message.answer(
                     text=await generate_answer(
                         prompt=text,
