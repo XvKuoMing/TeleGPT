@@ -33,9 +33,9 @@ async def proceed_dialog(message: Message, text: Optional[str] = None, system: O
         history = data['history']
 
     base64_images = None
-    if message.content_type == ContentType.Text:
+    if message.content_type == ContentType.TEXT:
         text = message.text if text is None else text
-    if message.content_type == ContentType.Photo:
+    if message.content_type == ContentType.PHOTO:
         base64_images = []
         photo = message.photo[-1]
         photo_bytes = io.BytesIO()
