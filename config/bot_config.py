@@ -6,5 +6,5 @@ load_dotenv()
 
 tgpt = Bot(
     token=os.getenv('BOT_TOKEN'),
-    # default=DefaultBotProperties(parse_mode="HTML")
+    # default=DefaultBotProperties(parse_mode="MarkdownV2")
 )

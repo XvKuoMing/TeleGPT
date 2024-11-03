@@ -38,8 +38,9 @@ async def proceed_dialog(message: Message, text: Optional[str] = None, system: O
     if message.content_type == ContentType.PHOTO:
         base64_images = []
         photo = message.photo[-1]
+        file = await tgpt.get_file(photo.file_id)
         photo_bytes = io.BytesIO()
-        await photo.download(destination=photo_bytes)
+        await tgpt.download_file(file.file_path, photo_bytes)
         photo_bytes.seek(0)  # Go to the start of the BytesIO object
         # Encode the photo to base64
         encoded_string = base64.b64encode(photo_bytes.read()).decode('utf-8')
