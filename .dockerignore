@@ -2,3 +2,6 @@ venv
 .github
 .gitignore
 *log
+.md
+.conf
+LICENSE

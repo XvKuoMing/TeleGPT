@@ -16,6 +16,7 @@ services:
     restart: always
     volumes:
       - bot_data:/data
+      - /etc/ssl/certs/nginx-selfsigned.crt:/etc/ssl/certs/nginx-selfsigned.crt  # Mount the certificate file
     depends_on:
       - redis
     network_mode: host
