@@ -16,11 +16,12 @@ redis_host_params = {
 }
 
 # Function to test Redis connection with retries
-def test_redis_connection(redis_host_params, max_retries=2, wait_time=2):
+def test_redis_connection(redis_host_params, max_retries=3, wait_time=5):
     print("testing redis connection")
     for attempt in range(max_retries):
         try:
             # Test connection
+            time.sleep(wait_time) # Wait before retrying
             conn = redis.Redis(**redis_host_params)
             conn.ping()  # if Redis does not reply, the error will occur
             conn.close()
@@ -28,7 +29,6 @@ def test_redis_connection(redis_host_params, max_retries=2, wait_time=2):
             return True  # Connection successful
         except (TimeoutError, ConnectionError):
             print(f"Redis connection attempt {attempt + 1} failed, retrying...")
-            time.sleep(wait_time)  # Wait before retrying
     return False  # Failed after max retries
 
 

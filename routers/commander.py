@@ -2,7 +2,7 @@
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
-from structures import choice_callback, CallbackChoice
+from structures.callbacks import choice_callback, CallbackChoice
 from aiogram.fsm.storage.base import StorageKey
 from config.dp_config import dp
 from config.bot_config import tgpt
