@@ -21,7 +21,7 @@ async def change_bot_system(message: Message) -> None:
         reply_markup=await choice_callback(
             type="do",
             choices=list(SYSTEM_PROMPTS.keys()),
-            user_id=message.from_user.user.id
+            user_id=message.from_user.id
         )
     )
 
