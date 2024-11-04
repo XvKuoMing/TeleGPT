@@ -5,7 +5,7 @@ from aiogram.types import Message
 
 informant = Router()
 
-@informant.message(Command('help'))
+@informant.message(Command('about'))
 async def help(message: Message) -> None:
     return await message.answer("""
 Данный бот создан для того, чтобы помочь вам утилизировать силу LLM на максимум.

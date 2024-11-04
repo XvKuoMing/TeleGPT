@@ -17,7 +17,9 @@ generator = Router()  # handles every logic about text generation
 
 @generator.message(~F.text.startswith('/') & (F.text | F.photo))
 @flags.chat_action(initial_sleep=1, action="typing", interval=3)
-async def proceed_dialog(message: Message, text: Optional[str] = None, system: Optional[str] = None) -> None:
+async def proceed_dialog(message: Message, 
+                         text: Optional[str] = None
+                         ) -> None:
     """
     The main generation handler, generates texts, saves dialog history
     :param message: message to reply
@@ -31,6 +33,10 @@ async def proceed_dialog(message: Message, text: Optional[str] = None, system: O
     history = []
     if 'history' in data.keys():
         history = data['history']
+    
+    system = None
+    if "system" in data.keys():
+        system = data["system"]
 
     base64_images = None
     if message.content_type == ContentType.TEXT:
@@ -49,9 +55,6 @@ async def proceed_dialog(message: Message, text: Optional[str] = None, system: O
     
     if text is None and base64_images:
         text = "Расскажи, что на картинках"
-    
-    if system is not None:
-        system = "" # load system prompt from dir
 
     ai_answer = await message.answer(
                     text=await generate_answer(
