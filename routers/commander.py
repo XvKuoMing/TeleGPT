@@ -13,19 +13,21 @@ from routers.generator import proceed_dialog
 commander = Router()
 
 
-@commander.message(Command("do"))
+DO = "do"
+
+@commander.message(Command(DO))
 async def change_bot_system(message: Message) -> None:
     """Change system prompt for current user"""
     await message.answer(
         "Пожалуйста, выберите, что вы хотите сделать?",
         reply_markup=await choice_callback(
-            type="do",
+            type=DO,
             choices=list(SYSTEM_PROMPTS.keys()),
             user_id=message.from_user.id
         )
     )
 
-@commander.callback_query(CallbackChoice.filter(F.type == "do"))
+@commander.callback_query(CallbackChoice.filter(F.type == DO))
 async def save_choice(query: CallbackQuery, callback_data: CallbackChoice) -> None:
     await query.answer()
     new_system = SYSTEM_PROMPTS[callback_data.choice]
