@@ -1,5 +1,5 @@
 from aiogram.filters.callback_data import CallbackData
-from aiogram.types import InlineKeyboardBuilder
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 from typing import List
 
 
