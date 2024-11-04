@@ -16,4 +16,5 @@ async def choice_callback(type: str, choices: List[str], user_id: int):
             text=choice,
             callback_data=CallbackChoice(type=type, choice=choice, user_id=user_id)
         )
+    builder.adjust(1)
     return builder.as_markup()
