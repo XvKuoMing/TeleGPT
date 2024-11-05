@@ -15,7 +15,12 @@ with open("config/system.txt", 'r', encoding='utf8') as base_file:
 SYSTEM_PROMPTS = {}
 
 # Iterate over prompt files in the specified directory
-PROMPTS_DIR = "../prompts/"
+# Get the absolute path to the project root directory
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))  # This will get the directory of the current file
+# Adjust to the project root if necessary
+PROJECT_ROOT = os.path.abspath(os.path.join(PROJECT_ROOT, '..'))
+# accessing the prompts directory
+PROMPTS_DIR = os.path.join(PROJECT_ROOT, 'prompts')
 for prompt_file in os.listdir(PROMPTS_DIR):
     name = prompt_file.split(".")[0]
     with open(os.path.join(PROMPTS_DIR, prompt_file), encoding="utf-8") as prompt:
