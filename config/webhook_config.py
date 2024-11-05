@@ -18,7 +18,9 @@ webhook_handler = SimpleRequestHandler(dispatcher=dp,
 
 async def set_webhook(bot: Bot):
     await bot.set_webhook(f"{WEBHOOK_ADDRESS}{WEBHOOK_PATH}",
-                           certificate=FSInputFile(SELF_SIGNED_CERTIFICATE))
+                           certificate=FSInputFile(SELF_SIGNED_CERTIFICATE),
+                           allowed_updates=["message", "callback_query"],
+                           drop_pending_updates=True)
 
 async def delete_webhook(bot: Bot):
     await bot.delete_webhook(drop_pending_updates=True)

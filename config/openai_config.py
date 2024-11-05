@@ -8,6 +8,7 @@ OPENAI_BASE_URL = os.getenv('OPENAI_BASE_URL')
 MODEL = os.getenv('MODEL')
 
 # Read the base system prompt
+print("configuring base system prompt")
 with open("config/system.txt", 'r', encoding='utf8') as base_file:
     BASE_SYSTEM_PROMPT = base_file.read().replace('\n', ' ')
 
@@ -21,6 +22,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))  # This will get the d
 PROJECT_ROOT = os.path.abspath(os.path.join(PROJECT_ROOT, '..'))
 # accessing the prompts directory
 PROMPTS_DIR = os.path.join(PROJECT_ROOT, 'prompts')
+print("loading various functions")
 for prompt_file in os.listdir(PROMPTS_DIR):
     name = prompt_file.split(".")[0]
     with open(os.path.join(PROMPTS_DIR, prompt_file), encoding="utf-8") as prompt:
