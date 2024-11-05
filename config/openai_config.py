@@ -17,7 +17,7 @@ SYSTEM_PROMPTS = {}
 # Iterate over prompt files in the specified directory
 # Get the absolute path to the project root directory
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))  # This will get the directory of the current file
-# Adjust to the project root if necessary
+# Adjust to the project root
 PROJECT_ROOT = os.path.abspath(os.path.join(PROJECT_ROOT, '..'))
 # accessing the prompts directory
 PROMPTS_DIR = os.path.join(PROJECT_ROOT, 'prompts')

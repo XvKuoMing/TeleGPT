@@ -26,8 +26,8 @@ def main():
     generator.message.middleware(ThrottlingMiddleware())
     informant.message.middleware(ThrottlingMiddleware(throttle_time=2))
     
-    commander.message.middleware(LoggingMiddleware())
-    commander.callback_query.middleware(LoggingMiddleware()) 
+    commander.message.outer_middleware(LoggingMiddleware())
+    commander.callback_query.outer_middleware(LoggingMiddleware()) 
     # include router's to dispatcher
     dp.include_router(generator)
     dp.include_router(informant)
