@@ -15,7 +15,7 @@ with open("config/system.txt", 'r', encoding='utf8') as base_file:
 SYSTEM_PROMPTS = {}
 
 # Iterate over prompt files in the specified directory
-PROMPTS_DIR = "/prompts/"
+PROMPTS_DIR = "../prompts/"
 for prompt_file in os.listdir(PROMPTS_DIR):
     name = prompt_file.split(".")[0]
     with open(os.path.join(PROMPTS_DIR, prompt_file), encoding="utf-8") as prompt:
