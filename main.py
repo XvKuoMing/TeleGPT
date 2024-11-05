@@ -2,6 +2,7 @@ import logging
 from aiohttp import web
 from aiogram.utils.chat_action import ChatActionMiddleware
 from middlewares.throttling import ThrottlingMiddleware
+from middlewares.logging import LoggingMiddleware
 from aiogram.webhook.aiohttp_server import setup_application
 
 from routers.generator import generator
@@ -21,8 +22,12 @@ from config.webhook_config import (set_webhook,
 def main():
     # include router's middlewares
     generator.message.middleware(ChatActionMiddleware())
+    
     generator.message.middleware(ThrottlingMiddleware())
     informant.message.middleware(ThrottlingMiddleware(throttle_time=2))
+    
+    commander.message.middleware(LoggingMiddleware())
+    commander.callback_query.middleware(LoggingMiddleware()) 
     # include router's to dispatcher
     dp.include_router(generator)
     dp.include_router(informant)

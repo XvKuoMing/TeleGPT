@@ -29,6 +29,7 @@ async def change_bot_system(message: Message) -> None:
 
 @commander.callback_query(CallbackChoice.filter(F.type == DO))
 async def save_choice(query: CallbackQuery, callback_data: CallbackChoice) -> None:
+    print("inside choices")
     await query.answer()
     new_system = SYSTEM_PROMPTS[callback_data.choice]
     storage_key = StorageKey(
