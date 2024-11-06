@@ -53,9 +53,8 @@ async def proceed_dialog(message: Message,
     if message.entities:
         urls = []
         for entity in message.entities:
-            if entity.type in ["url", "url_link"]:
-                urls.append(urls)
-        print(urls)
+            if entity.type == "text_link":
+                urls.append(entity.url)
         urls_and_texts = await fetch_all(urls)
         embed_text = "\n\n"
         for url, text in urls_and_texts:

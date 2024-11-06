@@ -13,7 +13,6 @@ async def fetch_all(urls: List[str]) -> List[Tuple[str, str]]:
     """fetches all given url"""
     async with aiohttp.ClientSession() as session:
         tasks = []
-        print(urls)
         for url in urls:
             tasks.append(
                 asyncio.ensure_future(
