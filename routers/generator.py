@@ -52,9 +52,12 @@ async def proceed_dialog(message: Message,
     # <urls>
     if message.entities:
         urls = []
+        print(message.entities)
         for entity in message.entities:
             if entity.type == "text_link":
                 urls.append(entity.url)
+            if entity.type == "url":
+                urls.append(text[entity.offset:entity.length])
         urls_and_texts = await fetch_all(urls)
         embed_text = "\n\n"
         for url, text in urls_and_texts:
