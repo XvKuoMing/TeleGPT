@@ -73,13 +73,13 @@ async def start_session(message: Message) -> None:
     await proceed_dialog(message=message, text=text)
 
 
-@generator.message(F.entities.func(lambda entities: "text_url" in [ent.type for ent in entities]))
+@generator.message(F.entities.func(lambda entities: set([ent.type for ent in entities]).issubset(set(["url", "url_link"]))))
 @flags.chat_action(initial_sleep=1, action="typing", interval=3)
 async def embed_urls(message: Message) -> None:
     """if texts contains url, then we embed their content into message text"""
     urls = []
     for entity in message.entities:
-        if entity.type == "text_url":
+        if entity.type in ["url", "url_link"]:
             urls.append(entity.url)
     urls_and_texts = await fetch_all(urls)
     embed_text = "\n\n"

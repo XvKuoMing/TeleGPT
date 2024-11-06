@@ -13,7 +13,7 @@ async def generate_answer(prompt: str,
     
     if system is None:
         system = BASE_SYSTEM_PROMPT
-    system = {'role': 'system', 'content': BASE_SYSTEM_PROMPT}
+    system = {'role': 'system', 'content': system}
     if history is None:
         history = []
     
