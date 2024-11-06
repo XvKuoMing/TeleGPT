@@ -43,7 +43,6 @@ async def generate_answer(prompt: str,
     messages.append(
         {"role":"assistant", "content": res}
     )
-    # res = await escape(res)
     return res, history
 
 async def generate(text: str, 
