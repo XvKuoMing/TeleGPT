@@ -2,6 +2,7 @@ from config.openai_config import BASE_SYSTEM_PROMPT, MODEL, client
 from config.dp_config import dp
 from aiogram.fsm.storage.base import StorageKey
 from typing import Optional, List
+from utils.escaper import escape
 import re
 
 comments = re.compile(r"\*.*\*")
@@ -42,6 +43,7 @@ async def generate_answer(prompt: str,
     messages.append(
         {"role":"assistant", "content": res}
     )
+    res = escape(res)
     return res, history
 
 async def generate(text: str, 

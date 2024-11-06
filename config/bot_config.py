@@ -8,3 +8,8 @@ tgpt = Bot(
     token=os.getenv('BOT_TOKEN'),
     default=DefaultBotProperties(parse_mode="MarkdownV2")
 )
+
+
+ESCAPE_FROM_MARK = [
+    '_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'
+]
