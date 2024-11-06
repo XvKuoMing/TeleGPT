@@ -10,17 +10,10 @@ async def generate_answer(prompt: str,
                           system: Optional[str] = None, 
                           history: Optional[List[dict]] = None,
                           base64_images: Optional[list] = None):
-    print(prompt)
-    print('----')
-    print(system)
-    print("----")
-    print(history)
-    print("----")
-    print(base64_images)
-    print("----")
     
     if system is None:
-        system = {'role': 'system', 'content': BASE_SYSTEM_PROMPT}
+        system = BASE_SYSTEM_PROMPT
+    system = {'role': 'system', 'content': BASE_SYSTEM_PROMPT}
     if history is None:
         history = []
     
@@ -37,20 +30,18 @@ async def generate_answer(prompt: str,
     else:
         user["content"] = prompt
 
-    history = [system, *history, user]
+    messages = [system, *history, user]
+    print(messages)
     res = await client.chat.completions.create(
         model=MODEL,
-        messages=[
-            system,
-            *history,
-            user
-        ]
+        messages=messages
     )
+    print(res)
     try:
         res = res.choices[0].message.content
     except:
         res = "К сожалению бот пока не может ответить. Попробуйте еще раз через пару минут"
-    history.append(
+    messages.append(
         {"role":"assistant", "content": res}
     )
     return res, history

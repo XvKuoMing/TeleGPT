@@ -85,6 +85,7 @@ async def embed_urls(message: Message) -> None:
     embed_text = "\n\n"
     for url, text in urls_and_texts:
         embed_text += f"Информация из ссылки: {url}\n" + text
+    print(embed_text)
     await proceed_dialog(message=message, text=message.text+embed_text)
 
 
