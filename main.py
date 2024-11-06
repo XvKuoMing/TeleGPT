@@ -22,7 +22,10 @@ def main():
     # include router's middlewares
     generator.message.middleware(ChatActionMiddleware())
     
+    generator.callback_query.middleware(ThrottlingMiddleware())
     generator.message.middleware(ThrottlingMiddleware())
+
+    informant.callback_query.middleware(ThrottlingMiddleware(throttle_time=2))
     informant.message.middleware(ThrottlingMiddleware(throttle_time=2))
 
     # include router's to dispatcher
