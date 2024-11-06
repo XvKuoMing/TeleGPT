@@ -10,6 +10,7 @@ from utils.fetching import fetch_all
 # from utils.stt import voice_file_id2text
 from typing import Optional
 import base64
+import aiofiles
 import io
 
 generator = Router()  # handles every logic about text generation
@@ -54,6 +55,7 @@ async def proceed_dialog(message: Message,
         for entity in message.entities:
             if entity.type in ["url", "url_link"]:
                 urls.append(urls)
+        print(urls)
         urls_and_texts = await fetch_all(urls)
         embed_text = "\n\n"
         for url, text in urls_and_texts:
@@ -98,6 +100,30 @@ async def voice2text(message: Message) -> None:
     # voice_file_id = message.voice.file_id
     # text = await voice_file_id2text(voice_file_id)
     # await proceed_dialog(message=message, text=text)
+
+
+@generator.message(F.document)
+@flags.chat_action(initial_sleep=1, action="typing", interval=3)
+async def doc2text(message: Message) -> None:
+        # Check if the document is a .txt file
+    if message.document.mime_type == 'text/plain':
+        file_id = message.document.file_id
+        file = await tgpt.get_file(file_id)
+        # Download the file to the local directory
+        photo_bytes = io.BytesIO()
+        await tgpt.download_file(file.file_path, photo_bytes)
+        photo_bytes.seek(0)
+        # Read the contents of the .txt file asynchronously
+        async with aiofiles.open(photo_bytes, 'r', encoding='utf-8') as f:
+            content = await f.read()
+
+        # Send the contents back to the user
+        text = message.caption + "\n\n" + content
+        
+    else:
+        text = "На данный момент поддерживаются только файлы формата .txt"
+    
+    await proceed_dialog(message, text)
 
 
 """-------------------------------------generation memory management----------------------------------------------"""
