@@ -10,6 +10,15 @@ async def generate_answer(prompt: str,
                           system: Optional[str] = None, 
                           history: Optional[List[dict]] = None,
                           base64_images: Optional[list] = None):
+    print(prompt)
+    print('----')
+    print(system)
+    print("----")
+    print(history)
+    print("----")
+    print(base64_images)
+    print("----")
+    
     if system is None:
         system = {'role': 'system', 'content': BASE_SYSTEM_PROMPT}
     if history is None:
