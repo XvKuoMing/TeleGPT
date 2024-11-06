@@ -1,4 +1,6 @@
 from config.openai_config import BASE_SYSTEM_PROMPT, MODEL, client
+from config.dp_config import dp
+from aiogram.fsm.storage.base import StorageKey
 from typing import Optional, List
 import re
 
@@ -26,7 +28,7 @@ async def generate_answer(prompt: str,
     else:
         user["content"] = prompt
 
-
+    history = [system, *history, user]
     res = await client.chat.completions.create(
         model=MODEL,
         messages=[
@@ -36,7 +38,33 @@ async def generate_answer(prompt: str,
         ]
     )
     try:
-        return res.choices[0].message.content
+        res = res.choices[0].message.content
     except:
-        return "К сожалению бот пока не может ответить. Попробуй еще раз через пару минут"
+        res = "К сожалению бот пока не может ответить. Попробуйте еще раз через пару минут"
+    history.append(
+        {"role":"assistant", "content": res}
+    )
+    return res, history
+
+async def generate(text: str, 
+                   storage_key: StorageKey,
+                   base64_images: list = None):
+    data = await dp.storage.get_data(key=storage_key)
+    history = []
+    if 'history' in data.keys():
+        history = data['history']
+    
+    system = None
+    if "system" in data.keys():
+        system = data["system"]
+    
+    ai_answer, history = await generate_answer(
+                        prompt=text,
+                        system=system,
+                        history=history,
+                        base64_images=base64_images
+                    )
+    await dp.storage.update_data(key=storage_key,
+                                 data={'history': history})
+    return ai_answer
     

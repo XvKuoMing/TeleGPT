@@ -7,7 +7,7 @@ from aiogram.fsm.storage.base import StorageKey
 from config.dp_config import dp
 from config.bot_config import tgpt
 from config.openai_config import SYSTEM_PROMPTS
-from routers.generator import proceed_dialog
+from utils.generation import generate
 
 
 commander = Router()
@@ -38,7 +38,9 @@ async def save_choice(query: CallbackQuery, callback_data: CallbackChoice) -> No
     )
     await dp.storage.update_data(key=storage_key,
                                     data={'system': new_system})
-    await proceed_dialog(
-        message=query.message,
-        text="Спроси пользователя, чем ему помочь. Расскажи, что ты можешь."
+    await query.message.answer(
+        await generate(
+            text="Спроси пользователя, чем ему помочь. Расскажи, что ты можешь.",
+            storage_key=storage_key
+        )
     )

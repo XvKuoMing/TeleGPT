@@ -5,7 +5,7 @@ from aiogram.fsm.storage.base import StorageKey
 
 from config.bot_config import tgpt
 from config.dp_config import dp
-from utils.generation import generate_answer
+from utils.generation import generate
 from utils.fetching import fetch_all
 # from utils.stt import voice_file_id2text
 from typing import Optional
@@ -29,14 +29,6 @@ async def proceed_dialog(message: Message,
     storage_key = StorageKey(bot_id=tgpt.id,
                              user_id=message.from_user.id,
                              chat_id=message.chat.id)
-    data = await dp.storage.get_data(key=storage_key)
-    history = []
-    if 'history' in data.keys():
-        history = data['history']
-    
-    system = None
-    if "system" in data.keys():
-        system = data["system"]
 
     base64_images = None
     if message.content_type == ContentType.TEXT:
@@ -56,18 +48,14 @@ async def proceed_dialog(message: Message,
     if text is None and base64_images:
         text = "Расскажи, что на картинках"
 
-    ai_answer = await message.answer(
-                    text=await generate_answer(
-                        prompt=text,
-                        system=system,
-                        history=history,
-                        base64_images=base64_images
-                    )
-                )
-    history.append({'role': 'user', 'content': text})
-    history.append({'role': 'assistant', 'content': ai_answer.text})
-    await dp.storage.update_data(key=storage_key,
-                                 data={'history': history})
+    await message.answer(
+        await generate(
+            text=text,
+            storage_key=storage_key,
+            base64_images=base64_images
+        )
+    )
+
 
 """-------------------------------------------special generation cases-------------------------------------------"""
 @generator.message(Command('start'))
