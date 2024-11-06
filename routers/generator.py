@@ -29,16 +29,6 @@ async def proceed_dialog(message: Message,
     storage_key = StorageKey(bot_id=tgpt.id,
                              user_id=message.from_user.id,
                              chat_id=message.chat.id)
-    # <urls>
-    urls = []
-    for entity in message.entities:
-        if entity.type in ["url", "url_link"]:
-            urls.append(urls)
-    urls_and_texts = await fetch_all(urls)
-    embed_text = "\n\n"
-    for url, text in urls_and_texts:
-        embed_text += f"Информация из ссылки: {url}\n" + text
-    # </urls>
 
     base64_images = None
     if message.content_type == ContentType.TEXT:
@@ -58,8 +48,18 @@ async def proceed_dialog(message: Message,
     if text is None and base64_images:
         text = "Расскажи, что на картинках"
     
-    if embed_text != "\n\n":
+    # <urls>
+    if message.entities:
+        urls = []
+        for entity in message.entities:
+            if entity.type in ["url", "url_link"]:
+                urls.append(urls)
+        urls_and_texts = await fetch_all(urls)
+        embed_text = "\n\n"
+        for url, text in urls_and_texts:
+            embed_text += f"Информация из ссылки: {url}\n" + text
         text += embed_text
+    # </urls>
 
     await message.answer(
         await generate(
