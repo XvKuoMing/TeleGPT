@@ -29,7 +29,17 @@ async def proceed_dialog(message: Message,
     storage_key = StorageKey(bot_id=tgpt.id,
                              user_id=message.from_user.id,
                              chat_id=message.chat.id)
-    print(storage_key)
+    # <urls>
+    urls = []
+    for entity in message.entities:
+        if entity.type in ["url", "url_link"]:
+            urls.append(urls)
+    urls_and_texts = await fetch_all(urls)
+    embed_text = "\n\n"
+    for url, text in urls_and_texts:
+        embed_text += f"Информация из ссылки: {url}\n" + text
+    # </urls>
+
     base64_images = None
     if message.content_type == ContentType.TEXT:
         text = message.text if text is None else text
@@ -47,6 +57,9 @@ async def proceed_dialog(message: Message,
     
     if text is None and base64_images:
         text = "Расскажи, что на картинках"
+    
+    if embed_text != "\n\n":
+        text += embed_text
 
     await message.answer(
         await generate(
@@ -71,22 +84,6 @@ async def start_session(message: Message) -> None:
     Расскажи ему пару слов о себе и что ты умеешь. 
     Если ты его уже приветствовал, то спроси, чем ему помочь."""
     await proceed_dialog(message=message, text=text)
-
-
-@generator.message(F.entities.func(lambda entities: set([ent.type for ent in entities]).issubset(set(["url", "url_link"]))))
-@flags.chat_action(initial_sleep=1, action="typing", interval=3)
-async def embed_urls(message: Message) -> None:
-    """if texts contains url, then we embed their content into message text"""
-    urls = []
-    for entity in message.entities:
-        if entity.type in ["url", "url_link"]:
-            urls.append(entity.url)
-    urls_and_texts = await fetch_all(urls)
-    embed_text = "\n\n"
-    for url, text in urls_and_texts:
-        embed_text += f"Информация из ссылки: {url}\n" + text
-    print(embed_text)
-    await proceed_dialog(message=message, text=message.text+embed_text)
 
 
 @generator.message(F.voice)
