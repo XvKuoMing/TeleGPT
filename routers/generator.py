@@ -29,7 +29,7 @@ async def proceed_dialog(message: Message,
     storage_key = StorageKey(bot_id=tgpt.id,
                              user_id=message.from_user.id,
                              chat_id=message.chat.id)
-
+    print(storage_key)
     base64_images = None
     if message.content_type == ContentType.TEXT:
         text = message.text if text is None else text

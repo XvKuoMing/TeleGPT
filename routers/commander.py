@@ -36,6 +36,7 @@ async def save_choice(query: CallbackQuery, callback_data: CallbackChoice) -> No
         user_id=callback_data.user_id,
         chat_id=query.message.chat.id
     )
+    print(storage_key)
     await dp.storage.update_data(key=storage_key,
                                     data={'system': new_system})
     await query.message.answer(
