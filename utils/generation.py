@@ -42,7 +42,7 @@ async def generate_answer(prompt: str,
     messages.append(
         {"role":"assistant", "content": res}
     )
-    return res, history
+    return res, messages
 
 async def generate(text: str, 
                    storage_key: StorageKey,
