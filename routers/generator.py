@@ -125,13 +125,6 @@ async def doc2text(message: Message) -> None:
     if message.document.mime_type == 'text/plain':
         file_id = message.document.file_id
         file = await tgpt.get_file(file_id)
-        # # Download the file to the local directory
-        # photo_bytes = io.BytesIO()
-        # await tgpt.download_file(file.file_path, photo_bytes)
-        # photo_bytes.seek(0)
-        # # Read the contents of the .txt file asynchronously
-        # async with aiofiles.open(photo_bytes, 'r', encoding='utf-8') as f:
-        #     content = await f.read()
         temp_file = await create_tempfile()
         await tgpt.download_file(file.file_path, temp_file)
         temp_file.seek(0)
@@ -142,7 +135,7 @@ async def doc2text(message: Message) -> None:
         # Send the contents back to the user
         caption = ""
         if message.caption:
-            caption = message.caption + "\n\n"
+            caption = message.caption + f"\n\n Контент файла/документа: <document>\n{message.document.file_name}\n</document>"
         text = caption + content
         
     else:
