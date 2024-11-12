@@ -134,7 +134,7 @@ async def doc2text(message: Message) -> None:
         #     content = await f.read()
         temp_file = await create_tempfile()
         await tgpt.download_file(file.file_path, temp_file)
-        await temp_file.seek(0)
+        temp_file.seek(0)
         async with aiofiles.open(temp_file.name, "r", encoding="utf-8") as f:
             content = await f.read()
         temp_file.close()
