@@ -144,6 +144,7 @@ async def doc2text(message: Message) -> None:
         if message.caption:
             caption = message.caption + "\n\n"
         text = caption + content
+        print(text)
         
     else:
         text = "На данный момент поддерживаются только файлы формата .txt"
