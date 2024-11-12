@@ -13,6 +13,7 @@ from typing import Optional
 import base64
 import aiofiles
 import io
+import tempfile
 
 generator = Router()  # handles every logic about text generation
 
@@ -117,13 +118,19 @@ async def doc2text(message: Message) -> None:
     if message.document.mime_type == 'text/plain':
         file_id = message.document.file_id
         file = await tgpt.get_file(file_id)
-        # Download the file to the local directory
-        photo_bytes = io.BytesIO()
-        await tgpt.download_file(file.file_path, photo_bytes)
-        photo_bytes.seek(0)
-        # Read the contents of the .txt file asynchronously
-        async with aiofiles.open(photo_bytes, 'r', encoding='utf-8') as f:
-            content = await f.read()
+        # # Download the file to the local directory
+        # photo_bytes = io.BytesIO()
+        # await tgpt.download_file(file.file_path, photo_bytes)
+        # photo_bytes.seek(0)
+        # # Read the contents of the .txt file asynchronously
+        # async with aiofiles.open(photo_bytes, 'r', encoding='utf-8') as f:
+        #     content = await f.read()
+        async with tempfile.NamedTemporaryFile(delete=True) as temp_file:
+            await tgpt.download_file(file.file_path, temp_file)
+            await temp_file.seek(0)
+            async with aiofiles.open(temp_file.name, "r", encoding="utf-8") as f:
+                content = await f.read()
+
 
         # Send the contents back to the user
         text = message.caption + "\n\n" + content
