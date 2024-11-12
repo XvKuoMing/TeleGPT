@@ -7,6 +7,7 @@ from config.bot_config import tgpt
 from config.dp_config import dp
 from utils.generation import generate
 from utils.fetching import fetch_all
+from utils.create_doc import as_doc
 # from utils.stt import voice_file_id2text
 from typing import Optional
 import base64
@@ -65,13 +66,18 @@ async def proceed_dialog(message: Message,
         text += embed_text
     # </urls>
 
-    await message.answer(
-        await generate(
-            text=text,
-            storage_key=storage_key,
-            base64_images=base64_images
-        )
-    )
+    resulted_text = await generate(
+                        text=text,
+                        storage_key=storage_key,
+                        base64_images=base64_images
+                    )
+    if len(resulted_text) < 4096:
+        await message.answer(resulted_text)
+    else:
+        # send .txt document
+        name = await generate(text=f"Придумай название для текта (2-3 слова): {text[:1000]}")
+        input_file = await as_doc(resulted_text, name)
+        await message.answer_document(input_file)
 
 
 """-------------------------------------------special generation cases-------------------------------------------"""
