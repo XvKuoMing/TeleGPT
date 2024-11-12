@@ -1,3 +1,4 @@
+import asyncio
 from aiogram import F, Router, flags
 from aiogram.filters import Command
 from aiogram.types import Message, ContentType
@@ -114,7 +115,11 @@ async def voice2text(message: Message) -> None:
 @generator.message(F.document)
 @flags.chat_action(initial_sleep=1, action="typing", interval=3)
 async def doc2text(message: Message) -> None:
-        # Check if the document is a .txt file
+    async def create_tempfile():
+        # Create a temporary file in a separate thread
+        loop = asyncio.get_event_loop()
+        return await loop.run_in_executor(None, tempfile.NamedTemporaryFile, True, 'w+', 'utf-8')
+    # Check if the document is a .txt file
     if message.document.mime_type == 'text/plain':
         file_id = message.document.file_id
         file = await tgpt.get_file(file_id)
@@ -125,12 +130,12 @@ async def doc2text(message: Message) -> None:
         # # Read the contents of the .txt file asynchronously
         # async with aiofiles.open(photo_bytes, 'r', encoding='utf-8') as f:
         #     content = await f.read()
-        async with tempfile.NamedTemporaryFile(delete=True) as temp_file:
-            await tgpt.download_file(file.file_path, temp_file)
-            await temp_file.seek(0)
-            async with aiofiles.open(temp_file.name, "r", encoding="utf-8") as f:
-                content = await f.read()
-
+        temp_file = await create_tempfile()
+        await tgpt.download_file(file.file_path, temp_file)
+        await temp_file.seek(0)
+        async with aiofiles.open(temp_file.name, "r", encoding="utf-8") as f:
+            content = await f.read()
+        temp_file.close()
 
         # Send the contents back to the user
         text = message.caption + "\n\n" + content
