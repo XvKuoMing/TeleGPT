@@ -31,6 +31,7 @@ async def generate_answer(prompt: str,
         user["content"] = prompt
 
     messages = [system, *history, user]
+    print(messages)
     res = await client.chat.completions.create(
         model=MODEL,
         messages=messages
