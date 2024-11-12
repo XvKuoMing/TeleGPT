@@ -119,7 +119,7 @@ async def doc2text(message: Message) -> None:
         # Create a temporary file in a separate thread
         loop = asyncio.get_event_loop()
         return await loop.run_in_executor(None, 
-                                          lambda: tempfile.NamedTemporaryFile(mode='w+', encoding="utf-8", delete=True)
+                                          lambda: tempfile.NamedTemporaryFile(mode='wb+', encoding="utf-8", delete=True)
                                           )
     # Check if the document is a .txt file
     if message.document.mime_type == 'text/plain':
