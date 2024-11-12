@@ -140,7 +140,10 @@ async def doc2text(message: Message) -> None:
         temp_file.close()
 
         # Send the contents back to the user
-        text = message.caption + "\n\n" + content
+        caption = ""
+        if message.caption:
+            caption = message.caption + "\n\n"
+        text = caption + content
         
     else:
         text = "На данный момент поддерживаются только файлы формата .txt"
