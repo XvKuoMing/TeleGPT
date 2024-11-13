@@ -77,7 +77,7 @@ async def proceed_dialog(message: Message,
         await message.answer(resulted_text)
     else:
         # send .txt document
-        name = await generate(text=f"Придумай название для текта (2-3 слова): {text[:1000]}")
+        name = await generate(text=f"Придумай название для текта (2-3 слова): {text[:1000]}", storage_key=storage_key)
         input_file = await as_doc(resulted_text, name)
         await message.answer_document(input_file)
 
