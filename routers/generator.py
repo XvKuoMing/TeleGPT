@@ -6,7 +6,7 @@ from aiogram.fsm.storage.base import StorageKey
 
 from config.bot_config import tgpt
 from config.dp_config import dp
-from utils.generation import generate
+from utils.generation import generate, generate_answer
 from utils.fetching import fetch_all
 from utils.create_doc import as_doc
 # from utils.stt import voice_file_id2text
@@ -77,7 +77,10 @@ async def proceed_dialog(message: Message,
         await message.answer(resulted_text)
     else:
         # send .txt document
-        name = await generate(text=f"Придумай название для текта (2-3 слова): {text[:1000]}", storage_key=storage_key)
+        name, _ = await generate_answer(
+            prompt=f"Придумай название для текта (2-3 слова): {text[:100]}", 
+            system="Отвечай всегда на русском"
+            )
         input_file = await as_doc(resulted_text, name)
         await message.answer_document(input_file)
 
