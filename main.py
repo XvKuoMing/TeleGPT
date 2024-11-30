@@ -7,6 +7,7 @@ from aiogram.webhook.aiohttp_server import setup_application
 from routers.generator import generator
 from routers.informant import informant
 from routers.commander import commander
+from routers.collector import collector
 from config.bot_config import tgpt
 from config.dp_config import dp
 from config.webhook_config import (set_webhook,
@@ -32,6 +33,7 @@ def main():
     dp.include_router(generator)
     dp.include_router(informant)
     dp.include_router(commander)
+    dp.include_router(collector)
 
     # web logic
     app = web.Application()
