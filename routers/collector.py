@@ -10,7 +10,7 @@ collector = Router()
 @collector.message(Command("pay"))
 async def send_user_invoice(message: Message) -> None:
     "we need to check if user does not have subscription yet"
-    await pay(message.chat_id)
+    await pay(message.chat.id)
 
 @collector.pre_checkout_query()
 async def pre_checkout_query(q: PreCheckoutQuery):
